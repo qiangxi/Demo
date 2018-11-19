@@ -1,4 +1,4 @@
-package com.qiangxi.demo;
+package com.qiangxi.demo.viewpostdemo;
 
 /**
  * Create By renqiangqiang(qiang_xi) on 2018/9/10
