@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.qiangxi.demo">
 
     <application
@@ -11,13 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".viewpostdemo.MainActivity">
-
         </activity>
         <activity android:name=".routerdemo.RouterDemo1Activity">
         </activity>
         <activity android:name=".routerdemo.RouterDemo2Activity">
         </activity>
         <activity android:name=".circlelayout.StrokeLayoutTestActivity">
+
+        </activity>
+        <activity android:name=".shadow.ShadowActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

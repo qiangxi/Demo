@@ -1,6 +1,6 @@
 package com.qiangxi.demo.circlelayout;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.qiangxi.demo.R;
