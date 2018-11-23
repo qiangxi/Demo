@@ -18,9 +18,11 @@
         <activity android:name=".routerdemo.RouterDemo2Activity">
         </activity>
         <activity android:name=".circlelayout.StrokeLayoutTestActivity">
-
         </activity>
         <activity android:name=".shadow.ShadowActivity">
+
+        </activity>
+        <activity android:name=".portduffxfermode.PortDuffActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

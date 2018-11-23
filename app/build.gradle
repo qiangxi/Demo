@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -65,6 +67,7 @@ dependencies {
 //    implementation "com.yy.mobile.plugin.common:com.yy.mobile.arouter-api:${basesdk_version}"
 //    implementation "com.yy.mobile.plugin.common:com.yy.mobile.arouter-annotation:${basesdk_version}"
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 task A() {

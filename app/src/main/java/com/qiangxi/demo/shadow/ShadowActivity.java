@@ -1,6 +1,5 @@
 package com.qiangxi.demo.shadow;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
