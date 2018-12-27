@@ -20,9 +20,13 @@
         <activity android:name=".circlelayout.StrokeLayoutTestActivity">
         </activity>
         <activity android:name=".shadow.ShadowActivity">
-
         </activity>
         <activity android:name=".portduffxfermode.PortDuffActivity">
+
+        </activity>
+        <activity android:name=".handlerbus.HandlerBusActivity">
+        </activity>
+        <activity android:name=".badtoken.BadTokenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
