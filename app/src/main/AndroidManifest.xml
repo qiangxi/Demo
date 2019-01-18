@@ -11,12 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".viewpostdemo.MainActivity">
+        <activity android:name=".addviewtest.AddViewTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".viewpostdemo.MainActivity">
+
         </activity>
         <activity android:name=".routerdemo.RouterDemo1Activity">
         </activity>
@@ -27,12 +30,10 @@
         <activity android:name=".shadow.ShadowActivity">
         </activity>
         <activity android:name=".portduffxfermode.PortDuffActivity">
-
         </activity>
         <activity android:name=".handlerbus.HandlerBusActivity">
         </activity>
         <activity android:name=".badtoken.BadTokenActivity">
-
         </activity>
         <activity android:name=".coroutine.CoroutineDemo" />
     </application>
