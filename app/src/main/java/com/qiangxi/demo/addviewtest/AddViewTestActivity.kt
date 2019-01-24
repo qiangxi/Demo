@@ -5,14 +5,12 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import com.qiangxi.demo.R
-import java.io.File
 import java.io.FileOutputStream
 
 class AddViewTestActivity : AppCompatActivity() {
