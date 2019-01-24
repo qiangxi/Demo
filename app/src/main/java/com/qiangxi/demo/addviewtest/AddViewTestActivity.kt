@@ -1,23 +1,45 @@
 package com.qiangxi.demo.addviewtest
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
-import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.qiangxi.demo.R
+import java.io.File
+import java.io.FileOutputStream
 
 class AddViewTestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_view_test)
+
+//        "测ghj&^@1~$%搭".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
+    }
+
+    /**
+     * 文字转png图片
+     */
+    fun String.toPNG(path: String) {
+        val paint = Paint()
+        paint.textSize = 14F
+        val textWidth = paint.measureText(this).toInt()
+        paint.color = Color.RED
+        val fontMetrics = paint.fontMetricsInt
+        val textHeight = fontMetrics.descent - fontMetrics.ascent
+        val layer = Bitmap.createBitmap(textWidth, textHeight, Bitmap.Config.ARGB_8888)
+        val c = Canvas(layer)
+        c.drawColor(Color.BLUE)
+        c.drawText(this, 0F, -fontMetrics.ascent.toFloat(), paint)
+        val fos = FileOutputStream(path)
+        layer.compress(Bitmap.CompressFormat.PNG, 100, fos)
     }
 
     fun vvv(v: View) {
