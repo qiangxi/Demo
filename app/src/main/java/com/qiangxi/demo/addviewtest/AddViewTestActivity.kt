@@ -11,6 +11,7 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import com.qiangxi.demo.R
+import java.io.BufferedOutputStream
 import java.io.FileOutputStream
 
 class AddViewTestActivity : AppCompatActivity() {
@@ -36,8 +37,17 @@ class AddViewTestActivity : AppCompatActivity() {
         val c = Canvas(layer)
         c.drawColor(Color.BLUE)
         c.drawText(this, 0F, -fontMetrics.ascent.toFloat(), paint)
-        val fos = FileOutputStream(path)
-        layer.compress(Bitmap.CompressFormat.PNG, 100, fos)
+
+        var bos: BufferedOutputStream? = null
+        try {
+            bos = BufferedOutputStream(FileOutputStream(path))
+            layer.compress(Bitmap.CompressFormat.PNG, 100, bos)
+            bos.flush()
+        } catch (t: Throwable) {
+
+        } finally {
+            bos?.close()
+        }
     }
 
     fun vvv(v: View) {
