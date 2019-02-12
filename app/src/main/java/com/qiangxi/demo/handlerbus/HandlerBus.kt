@@ -20,6 +20,11 @@ class HandlerBus private constructor() {
 
     fun post(message: Message) {
         mHandler.sendMessage(message)
+
+
+        mHandler.postDelayed({
+
+        }, 1000)
     }
 
     fun post(any: Any, id: String) {
