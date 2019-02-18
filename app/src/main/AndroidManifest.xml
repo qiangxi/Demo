@@ -13,10 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".matrix.MatrixTestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".architecture.ArchitectureActivity">
         </activity>
         <activity android:name=".addviewtest.AddViewTestActivity">
-
         </activity>
         <activity android:name=".viewpostdemo.MainActivity">
         </activity>
@@ -31,11 +37,7 @@
         <activity android:name=".portduffxfermode.PortDuffActivity">
         </activity>
         <activity android:name=".handlerbus.HandlerBusActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".badtoken.BadTokenActivity">
         </activity>
