@@ -1,10 +1,22 @@
 package com.qiangxi.demo.addviewtest
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.LinearGradient
 import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Shader
 import android.os.Bundle
+import android.os.Environment
+import android.text.Layout
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.StaticLayout
+import android.text.TextPaint
+import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -12,6 +24,7 @@ import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import com.qiangxi.demo.R
 import java.io.BufferedOutputStream
+import java.io.File
 import java.io.FileOutputStream
 
 class AddViewTestActivity : AppCompatActivity() {
@@ -20,34 +33,61 @@ class AddViewTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_view_test)
 
-//        "测ghj&^@1~$%搭".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
+        "测ghj&^@1~$%搭".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png", 5, this)
     }
 
     /**
      * 文字转png图片
      */
-    fun String.toPNG(path: String) {
-        val paint = Paint()
-        paint.textSize = 14F
-        val textWidth = paint.measureText(this).toInt()
-        paint.color = Color.RED
-        val fontMetrics = paint.fontMetricsInt
+    fun String?.toPNG(path: String, padding: Int = 10, ctx: Context) {
+        if (TextUtils.isEmpty(this)) {
+            return
+        }
+        var temp = this!!
+        if (temp.length > 8) {
+            temp = temp.substring(0..7) + "..."
+        }
+        val finalText = "感谢 $temp"
+        val ssb = SpannableStringBuilder(finalText)
+        //text
+        ssb.setSpan(ForegroundColorSpan(Color.parseColor("#87FFFFFF")), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        //paint
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        val textPaint = TextPaint(paint)
+        textPaint.textSize = dip2pixel(ctx, 16F).toFloat()
+        textPaint.color = Color.WHITE
+        val textWidth = textPaint.measureText(finalText).toInt()
+        val staticLayout = StaticLayout(ssb, textPaint, textWidth, Layout.Alignment.ALIGN_NORMAL, 1F, 0F, true)
+        //canvas
+        val fontMetrics = textPaint.fontMetricsInt
         val textHeight = fontMetrics.descent - fontMetrics.ascent
-        val layer = Bitmap.createBitmap(textWidth, textHeight, Bitmap.Config.ARGB_8888)
+        val height = textHeight + padding * 2
+        val width = textWidth + height
+        val layer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val c = Canvas(layer)
-        c.drawColor(Color.BLUE)
-        c.drawText(this, 0F, -fontMetrics.ascent.toFloat(), paint)
-
+        val rectF = RectF(0F, 0F, width.toFloat(), height.toFloat())
+        paint.shader = LinearGradient(0F, 0F, width.toFloat(), height.toFloat(), Color.parseColor("#F33A23"), Color.parseColor("#5239FE"), Shader.TileMode.CLAMP)
+        c.drawRoundRect(rectF, height / 2F, height / 2F, paint)
+        c.save()
+        c.translate(height / 2F, padding.toFloat() / 2)
+        staticLayout.draw(c)
+        c.restore()
         var bos: BufferedOutputStream? = null
         try {
             bos = BufferedOutputStream(FileOutputStream(path))
             layer.compress(Bitmap.CompressFormat.PNG, 100, bos)
             bos.flush()
         } catch (t: Throwable) {
-
+            Log.i("AvatarDownloadQueue", "String.toPNG occur exception, e = $t")
         } finally {
             bos?.close()
+            layer.recycle()
         }
+    }
+
+    fun dip2pixel(context: Context, dpValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
     }
 
     fun vvv(v: View) {
