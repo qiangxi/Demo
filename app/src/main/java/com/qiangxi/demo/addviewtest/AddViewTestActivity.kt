@@ -33,7 +33,43 @@ class AddViewTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_view_test)
 
-        "测ghj&^@1~$%搭".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png", 5, this)
+//        "测ghj&^@1~$%搭".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png", 5, this)
+        "我是一个小虎牙啦啦啦".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png", this)
+    }
+
+
+    fun String?.toPNG2(path: String, ctx: Context) {
+        if (TextUtils.isEmpty(this)) {
+            return
+        }
+        var temp = this!!
+        if (temp.length > 8) {
+            temp = temp.substring(0..7) + "..."
+        }
+        val finalText = "感谢 $temp"
+        val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
+        textPaint.textSize = dip2pixel(ctx, 16F).toFloat()
+        textPaint.color = Color.WHITE
+        val textWidth = textPaint.measureText(finalText).toInt()
+        val fontMetrics = textPaint.fontMetricsInt
+        val height = 100
+        val width = textWidth
+        val layer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val c = Canvas(layer)
+        c.drawColor(Color.BLUE)
+        val y = height / 2 - fontMetrics.descent / 2 - fontMetrics.ascent / 2
+        c.drawText(finalText, 0F, y.toFloat(), textPaint)
+        var bos: BufferedOutputStream? = null
+        try {
+            bos = BufferedOutputStream(FileOutputStream(path))
+            layer.compress(Bitmap.CompressFormat.PNG, 100, bos)
+            bos.flush()
+        } catch (t: Throwable) {
+            Log.i("AvatarDownloadQueue", "String.toPNG occur exception, e = $t")
+        } finally {
+            bos?.close()
+            layer.recycle()
+        }
     }
 
     /**
