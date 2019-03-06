@@ -34,26 +34,25 @@ class AddViewTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_view_test)
 
 //        "测ghj&^@1~$%搭".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png", 5, this)
-        "我是一个小虎牙啦啦啦".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png", this)
+        "测ghj&^@1~\$%搭".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
     }
 
 
-    fun String?.toPNG2(path: String, ctx: Context) {
+    fun String?.toPNG2(path: String) {
         if (TextUtils.isEmpty(this)) {
             return
         }
+        val height = 100
+        val width = 600
         var temp = this!!
         if (temp.length > 8) {
             temp = temp.substring(0..7) + "..."
         }
         val finalText = "感谢 $temp"
         val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
-        textPaint.textSize = dip2pixel(ctx, 16F).toFloat()
+        textPaint.textSize =54F
         textPaint.color = Color.WHITE
-        val textWidth = textPaint.measureText(finalText).toInt()
         val fontMetrics = textPaint.fontMetricsInt
-        val height = 100
-        val width = textWidth
         val layer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val c = Canvas(layer)
         c.drawColor(Color.BLUE)
