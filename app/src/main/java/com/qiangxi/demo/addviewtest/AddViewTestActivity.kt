@@ -33,8 +33,9 @@ class AddViewTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_view_test)
 
-//        "测ghj&^@1~$%搭".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png", 5, this)
-        "测ghj&^@1~\$%搭".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
+//        "闲了蛋的超人不会飞".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
+//        "闲了蛋".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.png")
+        "闲了蛋的超人不会飞".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
     }
 
 
@@ -51,11 +52,13 @@ class AddViewTestActivity : AppCompatActivity() {
         val finalText = "感谢 $temp"
         val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
         textPaint.textSize =54F
+        textPaint.style = Paint.Style.FILL_AND_STROKE
+        textPaint.strokeWidth = 2F
         textPaint.color = Color.WHITE
         val fontMetrics = textPaint.fontMetricsInt
         val layer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val c = Canvas(layer)
-        c.drawColor(Color.BLUE)
+//        c.drawColor(Color.BLUE)
         val y = height / 2 - fontMetrics.descent / 2 - fontMetrics.ascent / 2
         c.drawText(finalText, 0F, y.toFloat(), textPaint)
         var bos: BufferedOutputStream? = null
@@ -74,7 +77,7 @@ class AddViewTestActivity : AppCompatActivity() {
     /**
      * 文字转png图片
      */
-    fun String?.toPNG(path: String, padding: Int = 10, ctx: Context) {
+    fun String?.toPNG(path: String) {
         if (TextUtils.isEmpty(this)) {
             return
         }
@@ -82,6 +85,8 @@ class AddViewTestActivity : AppCompatActivity() {
         if (temp.length > 8) {
             temp = temp.substring(0..7) + "..."
         }
+        val height = 100
+        val width = 600
         val finalText = "感谢 $temp"
         val ssb = SpannableStringBuilder(finalText)
         //text
@@ -89,22 +94,20 @@ class AddViewTestActivity : AppCompatActivity() {
         //paint
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         val textPaint = TextPaint(paint)
-        textPaint.textSize = dip2pixel(ctx, 16F).toFloat()
+        textPaint.textSize = 40F
         textPaint.color = Color.WHITE
         val textWidth = textPaint.measureText(finalText).toInt()
         val staticLayout = StaticLayout(ssb, textPaint, textWidth, Layout.Alignment.ALIGN_NORMAL, 1F, 0F, true)
         //canvas
-        val fontMetrics = textPaint.fontMetricsInt
-        val textHeight = fontMetrics.descent - fontMetrics.ascent
-        val height = textHeight + padding * 2
-        val width = textWidth + height
+        val fm = textPaint.fontMetrics
         val layer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val c = Canvas(layer)
         val rectF = RectF(0F, 0F, width.toFloat(), height.toFloat())
         paint.shader = LinearGradient(0F, 0F, width.toFloat(), height.toFloat(), Color.parseColor("#F33A23"), Color.parseColor("#5239FE"), Shader.TileMode.CLAMP)
         c.drawRoundRect(rectF, height / 2F, height / 2F, paint)
         c.save()
-        c.translate(height / 2F, padding.toFloat() / 2)
+        val y = height / 2F - fm.descent/2 - (fm.descent - fm.ascent) / 2
+        c.translate(height / 2F, y)
         staticLayout.draw(c)
         c.restore()
         var bos: BufferedOutputStream? = null
