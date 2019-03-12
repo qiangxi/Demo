@@ -33,9 +33,9 @@ class AddViewTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_view_test)
 
-//        "闲了蛋的超人不会飞".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
-//        "闲了蛋".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.png")
-        "闲了蛋的超人不会飞".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
+        "闲了蛋的超人不会飞".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
+        "闲了蛋".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.png")
+//        "闲了蛋的超人不会飞".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
     }
 
 
@@ -51,7 +51,7 @@ class AddViewTestActivity : AppCompatActivity() {
         }
         val finalText = "感谢 $temp"
         val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
-        textPaint.textSize =54F
+        textPaint.textSize = 54F
         textPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.strokeWidth = 2F
         textPaint.color = Color.WHITE
@@ -85,8 +85,7 @@ class AddViewTestActivity : AppCompatActivity() {
         if (temp.length > 8) {
             temp = temp.substring(0..7) + "..."
         }
-        val height = 100
-        val width = 600
+        val padding = dp2px(3F)
         val finalText = "感谢 $temp"
         val ssb = SpannableStringBuilder(finalText)
         //text
@@ -94,20 +93,22 @@ class AddViewTestActivity : AppCompatActivity() {
         //paint
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         val textPaint = TextPaint(paint)
-        textPaint.textSize = 40F
+        textPaint.textSize = dp2sp(11F).toFloat()
         textPaint.color = Color.WHITE
         val textWidth = textPaint.measureText(finalText).toInt()
         val staticLayout = StaticLayout(ssb, textPaint, textWidth, Layout.Alignment.ALIGN_NORMAL, 1F, 0F, true)
         //canvas
         val fm = textPaint.fontMetrics
-        val layer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val height = fm.descent - fm.ascent + padding * 2
+        val width = textWidth + height
+        Log.e("rqq", "width = $width, height = $height, textWidth = $textWidth")
+        val layer = Bitmap.createBitmap(width.toInt(), height.toInt(), Bitmap.Config.ARGB_8888)
         val c = Canvas(layer)
-        val rectF = RectF(0F, 0F, width.toFloat(), height.toFloat())
-        paint.shader = LinearGradient(0F, 0F, width.toFloat(), height.toFloat(), Color.parseColor("#F33A23"), Color.parseColor("#5239FE"), Shader.TileMode.CLAMP)
+        val rectF = RectF(0F, 0F, width, height)
+        paint.shader = LinearGradient(0F, 0F, width, height, Color.parseColor("#F33A23"), Color.parseColor("#5239FE"), Shader.TileMode.CLAMP)
         c.drawRoundRect(rectF, height / 2F, height / 2F, paint)
         c.save()
-        val y = height / 2F - fm.descent/2 - (fm.descent - fm.ascent) / 2
-        c.translate(height / 2F, y)
+        c.translate(height / 2F, padding / 2F)
         staticLayout.draw(c)
         c.restore()
         var bos: BufferedOutputStream? = null
@@ -123,15 +124,20 @@ class AddViewTestActivity : AppCompatActivity() {
         }
     }
 
-    fun dip2pixel(context: Context, dpValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
+    fun dp2sp(dpValue: Float): Int {
+        val scale = resources.displayMetrics.scaledDensity
+        return (dpValue * scale + 0.5f).toInt()
+    }
+
+    fun dp2px(dpValue: Float): Int {
+        val scale = resources.displayMetrics.density
         return (dpValue * scale + 0.5f).toInt()
     }
 
     fun vvv(v: View) {
         Log.e("AddViewTestActivity", "vvv")
 //        val a = AlphaAnimation(0.5F, 1F)
-        val a = TranslateAnimation(0F,30F,0F,0F)
+        val a = TranslateAnimation(0F, 30F, 0F, 0F)
         a.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {
             }
