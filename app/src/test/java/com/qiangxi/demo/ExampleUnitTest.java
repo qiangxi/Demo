@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import static org.junit.Assert.*;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * Example local unit test1, which will execute on the development machine (host).
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
@@ -103,5 +103,12 @@ public class ExampleUnitTest {
 
             }
         }
+    }
+
+    @Test
+    public void test11(){
+        System.out.println("BuildBundleDebug".equalsIgnoreCase("BuildBundleDebug"));
+        System.out.println("Buildbundledebug".equalsIgnoreCase("BuildBundleDebug"));
+        System.out.println("buildbundledebug".equalsIgnoreCase("buildBundleDebug"));
     }
 }

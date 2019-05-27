@@ -79,7 +79,7 @@ public class PortDuffImageView extends ImageView {
     //     //9.0以下裁剪图片为圆角矩形，实现方式为BitmapShader
     //     mPaint.setColor(Color.GREEN);
     //     mPaint.setStyle(Paint.Style.FILL);
-    //     Bitmap bp = BitmapFactory.decodeResource(getResources(), R.drawable.test);
+    //     Bitmap bp = BitmapFactory.decodeResource(getResources(), R.drawable.test1);
     //     mPaint.setShader(new BitmapShader(bp, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
     //     canvas.drawRoundRect(mRect, mRadius, mRadius, mPaint);
     // }

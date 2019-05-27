@@ -1,6 +1,7 @@
 package com.qiangxi.demo.addviewtest
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -19,10 +20,9 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import com.qiangxi.demo.R
+import com.qiangxi.test.MainActivity
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -33,6 +33,9 @@ class AddViewTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_view_test)
 
+//        "闲了蛋的超人不会飞".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.pngg")
+//        "闲了蛋".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.png")
+        "闲了蛋的超人不会飞".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.pngg")
         "闲了蛋的超人不会飞".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
         "闲了蛋".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.png")
 //        "闲了蛋的超人不会飞".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
@@ -135,7 +138,10 @@ class AddViewTestActivity : AppCompatActivity() {
     }
 
     fun vvv(v: View) {
-        Log.e("AddViewTestActivity", "vvv")
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+
+//        Log.e("AddViewTestActivity", "vvv")
 //        val a = AlphaAnimation(0.5F, 1F)
         val a = TranslateAnimation(0F, 30F, 0F, 0F)
         a.setAnimationListener(object : Animation.AnimationListener {
@@ -152,6 +158,21 @@ class AddViewTestActivity : AppCompatActivity() {
         })
         a.duration = 3000
         findViewById<View>(R.id.gone).startAnimation(a)
+//        val a = TranslateAnimation(0F,30F,0F,0F)
+//        a.setAnimationListener(object : Animation.AnimationListener {
+//            override fun onAnimationRepeat(animation: Animation?) {
+//            }
+//
+//            override fun onAnimationEnd(animation: Animation?) {
+//                Log.e("AddViewTestActivity", "onAnimationEnd")
+//            }
+//
+//            override fun onAnimationStart(animation: Animation?) {
+//                Log.e("AddViewTestActivity", "onAnimationStart")
+//            }
+//        })
+//        a.duration = 3000
+//        findViewById<View>(R.id.gone).startAnimation(a)
 //        val textView = TextView(this)
 //        val a = ObjectAnimator.ofFloat(textView, "alpha", 1.0f, 0.6f)
 //        a.duration = 3000

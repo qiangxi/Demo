@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+//apply from: project.file("../ktbuild.gradle.kts")
 
 android {
     compileSdkVersion 28
@@ -10,7 +11,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test1.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 it.argument('moduleName', project.getName())
@@ -23,6 +24,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        demo {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // This property is optional if you are using only one dimension.
+            dimension "version"
+            applicationIdSuffix ".demo"
+            versionNameSuffix "-demo"
+        }
+        full {
+            dimension "version"
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -30,30 +48,33 @@ android {
 }
 
 //验证depends Task是否一定在finalizedBy Task之后执行，验证结果是：depends Task一定在finalizedBy Task之后执行
-task buildBundleDebug() << {
-    print("buildBundleDebug")
-}
-
-task buildbundledebug() << {
-    sleep(5000)
-    print("buildbundledebug")
-}
-
-task test123() << {
-    print("test123")
-}
-
-buildBundleDebug.finalizedBy buildbundledebug
-test123.dependsOn buildBundleDebug
+//task buildBundleDebug() << {
+//    print("buildBundleDebug")
+//}
+//
+//task buildbundledebug() << {
+//    sleep(5000)
+//    print("buildbundledebug")
+//}
+//
+//task test123() << {
+//    print("test123")
+//}
+//
+//buildBundleDebug.finalizedBy buildbundledebug
+//test123.dependsOn buildBundleDebug
 
 //查找有无同名（忽略大小写）的task的代码块
-project.afterEvaluate {
-    def taskName = tasks.findAll { it.name.equalsIgnoreCase("buildbundledebug") }
-    taskName.each {
-        println("taskname=${it.name}")
-    }
-}
+//project.afterEvaluate {
+//    def taskName = tasks.findAll { it.name.equalsIgnoreCase("buildbundledebug") }
+//    taskName.each {
+//        println("taskname=${it.name}")
+//    }
+//}
 
+configurations {
+    customConfig
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -67,33 +88,139 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.google.android.material:material:1.0.0'
+
+    customConfig 'tgf:hth:4.5.3'
 //    annotationProcessor "com.yy.mobile:arouter-compiler:${basesdk_version}"
 //    implementation "com.yy.mobile.plugin.common:com.yy.mobile.arouter-api:${basesdk_version}"
 //    implementation "com.yy.mobile.plugin.common:com.yy.mobile.arouter-annotation:${basesdk_version}"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-//    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0' //协程稳定版
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0' //协程稳定版-android专用
+    //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0' //协程稳定版
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+    //协程稳定版-android专用
+    implementation project(':test')
+    implementation project(':test2')
+
 }
 
-task A() {
+//task A() {
+//    doLast {
+//        println("A...")
+//    }
+//}
+//task B(dependsOn: A) {
+//    doLast {
+//        println("B...")
+//    }
+//}
+//task C(dependsOn: B) {
+//    doLast {
+//        println("C...")
+//    }
+//}
+//task D(dependsOn: [C]) {
+//    doLast {
+//        println("D...")
+//    }
+//}
+//A.mustRunAfter D
+
+//task varTest() {
+//    doLast{
+//        android.applicationVariants.each{
+//            println("""name=${it.name}, flavor = ${it.flavorName}, getDirName = ${it.dirName},
+//            buildType = ${it.buildType.name}""")
+//
+//        }
+//
+//    }
+//}
+
+task configTest {
     doLast {
-        println("A...")
+        project.configurations.findByName("customConfig").asPath
+        project.configurations.findByName("customConfig").getDependencies().each {
+            println("name = ${it.name},group =  ${it.group}, reason=${it.reason}, version = ${it.version}, type = " +
+                    "${it.class.superclass.simpleName}")
+        }
+//        println()
+//        println()
+//        println()
+//        println()
+//        project.configurations.findByName("implementation").getArtifacts().each {
+//            println("name = ${it.name},classifier =  ${it.classifier}, date=${it.date}, extension = ${it.extension}, " +
+//                    "file = ${it.file},type = ${it.type},type = ${it.class.superclass.simpleName}")
+//        }
+////        project.configurations.each {
+////            println("${it.name}")
+////            println("${project.configurations.findByName(it.name)}")
+////            println("${project.configurations.findByName(it.name) instanceof Configuration }")
+//
+////        }
     }
 }
-task B(dependsOn: A) {
+
+//beforeEvaluate {
+//    configurations.create("rqq")
+//}
+//
+//afterEvaluate {
+//    tasks.withType(JavaCompile) {
+//        classpath.each {
+//            println("name = ${it.name},path =  ${it.absolutePath}")
+//        }
+//        println()
+//        println()
+//        println()
+//        println("name = ${name}, path = ${path}")
+//
+//    }
+//}
+
+task createConfig() {
     doLast {
-        println("B...")
+//        def config = project.configurations.findByName('customConfig')
+//        config.allArtifacts.all {PublishArtifact pa->
+//            println("${pa.name}")
+//
+//        }
+//        config.dependencies.all {Dependency dep->
+//            println("${dep.name}")
+//        }
+//        afterEvaluate {
+//            tasks.withType(JavaCompile) {
+//                classpath.each {
+//                    println("name = ${it.name},path =  ${it.absolutePath}")
+//                }
+//
+//            }
+//            tasks.all { Task t ->
+//                if (t.name.toLowerCase().contains("javacompile")) {
+//
+//                }
+//      ∑∑      }
+//        }
+
+//        config.allDependencies.each {Dependency de ->
+//          println("""group = ${de.group}, excludeRules = ${de.excludeRules}""")
+//
+//        }
+//       def f =  config.asPath
+//        println("""canBeResolved = ${config.canBeResolved}, canBeConsumed = ${config.canBeConsumed},
+//, state = ${config.state}""")
     }
+
 }
-task C(dependsOn: B) {
-    doLast {
-        println("C...")
-    }
+//afterEvaluate {
+//
+//    configurations.findByName("customConfig").allArtifacts.each {
+//        println("""name = ${it.name}""")
+//    }
+//}
+
+
+
+tasks.create("rqq123").dependsOn =  configurations.findByName("customConfig").incoming.artifacts
+tasks.findByName("rqq123").doLast {
+    println("name = ${configurations.findByName("customConfig").incoming.artifacts.artifactFiles}")
 }
-task D(dependsOn: [C]) {
-    doLast {
-        println("D...")
-    }
-}
-A.mustRunAfter D

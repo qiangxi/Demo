@@ -18,20 +18,20 @@ public class ShadowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shadow);
 
-        // test format
+        // test1 format
         TextView text = findViewById(R.id.text);
         text.setText(String.format("正在%s", ""));
         text.setVisibility(View.GONE);
 
         final ImageView shadowIv = findViewById(R.id.shadowIv);
-        // test AnimationDrawable
+        // test1 AnimationDrawable
         // shadowIv.setImageResource(R.drawable.common_mic_speak_anim);
         // final AnimationDrawable drawable = (AnimationDrawable) shadowIv.getDrawable();
         // drawable.start();
         shadowIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Drawable drawable = getResources().getDrawable(R.drawable.test);
+                Drawable drawable = getResources().getDrawable(R.drawable.test1);
                 ShadowDrawableWrapper wrapper = new ShadowDrawableWrapper(ShadowActivity.this, drawable, 5, 20, 40);
                 shadowIv.setImageDrawable(wrapper);
             }
