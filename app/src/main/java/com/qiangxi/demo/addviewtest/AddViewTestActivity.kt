@@ -20,6 +20,8 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import com.qiangxi.demo.R
 import com.qiangxi.test.MainActivity

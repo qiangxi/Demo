@@ -89,7 +89,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.google.android.material:material:1.0.0'
 
-    customConfig 'tgf:hth:4.5.3'
+//    customConfig 'tgf:hth:4.5.3'
 //    annotationProcessor "com.yy.mobile:arouter-compiler:${basesdk_version}"
 //    implementation "com.yy.mobile.plugin.common:com.yy.mobile.arouter-api:${basesdk_version}"
 //    implementation "com.yy.mobile.plugin.common:com.yy.mobile.arouter-annotation:${basesdk_version}"
@@ -177,8 +177,8 @@ task configTest {
 //    }
 //}
 
-task createConfig() {
-    doLast {
+//task createConfig() {
+//    doLast {
 //        def config = project.configurations.findByName('customConfig')
 //        config.allArtifacts.all {PublishArtifact pa->
 //            println("${pa.name}")
@@ -208,9 +208,9 @@ task createConfig() {
 //       def f =  config.asPath
 //        println("""canBeResolved = ${config.canBeResolved}, canBeConsumed = ${config.canBeConsumed},
 //, state = ${config.state}""")
-    }
-
-}
+//    }
+//
+//}
 //afterEvaluate {
 //
 //    configurations.findByName("customConfig").allArtifacts.each {
@@ -220,7 +220,7 @@ task createConfig() {
 
 
 
-tasks.create("rqq123").dependsOn =  configurations.findByName("customConfig").incoming.artifacts
-tasks.findByName("rqq123").doLast {
-    println("name = ${configurations.findByName("customConfig").incoming.artifacts.artifactFiles}")
-}
+//tasks.create("rqq123").dependsOn =  configurations.findByName("customConfig").incoming.artifacts
+//tasks.findByName("rqq123").doLast {
+//    println("name = ${configurations.findByName("customConfig").incoming.artifacts.artifactFiles}")
+//}
