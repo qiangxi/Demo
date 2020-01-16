@@ -101,6 +101,17 @@ public class RegexTest {
         process(regex, str);
     }
 
+    @Test
+    public void demo9() {
+        String str = "\\";
+        String regex = "\\\\";
+        Pattern compile = Pattern.compile(regex);
+        // System.out.println(compile.pattern());
+        // System.out.println(str.replaceAll(regex, "我"));
+        process("\\d+", "2223aa");
+    }
+
+
     private void process(String regex, String content) {
         Pattern compile = Pattern.compile(regex);
         Matcher matcher = compile.matcher(content);

@@ -96,4 +96,9 @@ public class RxJavaPractise {
                     }
                 });
     }
+
+    @Test
+    public void test5(){
+
+    }
 }

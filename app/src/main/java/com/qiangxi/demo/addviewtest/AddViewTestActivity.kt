@@ -1,7 +1,7 @@
 package com.qiangxi.demo.addviewtest
 
-import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -37,12 +37,13 @@ class AddViewTestActivity : AppCompatActivity() {
 
 //        "闲了蛋的超人不会飞".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.pngg")
 //        "闲了蛋".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.png")
-        "闲了蛋的超人不会飞".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.pngg")
-        "闲了蛋的超人不会飞".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
-        "闲了蛋".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.png")
+//        "闲了蛋的超人不会飞".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.pngg")
+//        "闲了蛋的超人不会飞".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
+//        "闲了蛋".toPNG(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test1.png")
 //        "闲了蛋的超人不会飞".toPNG2(Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
+        generateMask(Configuration.ORIENTATION_PORTRAIT,
+            Environment.getExternalStorageDirectory().absolutePath + "${File.separator}test.png")
     }
-
 
     fun String?.toPNG2(path: String) {
         if (TextUtils.isEmpty(this)) {
@@ -110,7 +111,8 @@ class AddViewTestActivity : AppCompatActivity() {
         val layer = Bitmap.createBitmap(width.toInt(), height.toInt(), Bitmap.Config.ARGB_8888)
         val c = Canvas(layer)
         val rectF = RectF(0F, 0F, width, height)
-        paint.shader = LinearGradient(0F, 0F, width, height, Color.parseColor("#F33A23"), Color.parseColor("#5239FE"), Shader.TileMode.CLAMP)
+        paint.shader = LinearGradient(0F, 0F, width, height, Color.parseColor("#F33A23"), Color.parseColor("#5239FE"),
+            Shader.TileMode.CLAMP)
         c.drawRoundRect(rectF, height / 2F, height / 2F, paint)
         c.save()
         c.translate(height / 2F, padding / 2F)
@@ -127,6 +129,46 @@ class AddViewTestActivity : AppCompatActivity() {
             bos?.close()
             layer.recycle()
         }
+    }
+
+    private fun generateMask(orientation: Int, path: String): Bitmap {
+        val scale = 544 / 960F
+        val textSize = dp2px(11F).toFloat()
+        val textColor = Color.WHITE
+        val textStroke = 3F
+        val text = "主播直播内容正在整改中"
+
+        val textPaint = TextPaint()
+        textPaint.textSize = textSize
+        textPaint.strokeWidth = textStroke
+        textPaint.color = textColor
+
+        val textWidth = textPaint.measureText(text)
+        val fm = textPaint.fontMetricsInt
+        val textHeight = fm.descent - fm.ascent
+        val bitmapWidth = textWidth + 20
+        val bitmapHeight = if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+            bitmapWidth * scale else bitmapWidth / scale
+        Log.i("rqq", "bitmapWidth = $bitmapWidth, bitmapHeight = $bitmapHeight")
+        val mask = Bitmap.createBitmap(bitmapWidth.toInt(), bitmapHeight.toInt(), Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(mask)
+        val staticLayout = StaticLayout(text, textPaint, textWidth.toInt(), Layout.Alignment.ALIGN_NORMAL, 1F, 0F, true)
+        val x = (bitmapWidth - textWidth) / 2
+        val y = bitmapHeight / 2F - fm.descent / 2 - textHeight / 2
+        canvas.translate(x, y)
+        staticLayout.draw(canvas)
+        var bos: BufferedOutputStream? = null
+        try {
+            bos = BufferedOutputStream(FileOutputStream(path))
+            mask.compress(Bitmap.CompressFormat.PNG, 100, bos)
+            bos.flush()
+        } catch (t: Throwable) {
+            Log.i("rqq", "mask.compress Throwable, t = $t")
+        } finally {
+            bos?.close()
+            mask.recycle()
+        }
+        return mask
     }
 
     fun dp2sp(dpValue: Float): Int {
@@ -190,7 +232,5 @@ class AddViewTestActivity : AppCompatActivity() {
 //            }
 //        })
 //        a.start()
-
-
     }
 }
